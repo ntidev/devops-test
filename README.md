@@ -22,6 +22,24 @@ In the two sections below this one, we are going to be setting up the project im
 
 2. Configure security groups for the instance so that ports for HTTP and HTTPS are accessible by everyone, but SSH access requires adding the public IP of the person trying to access the server.
 
+3. Create the next four IAM users in your AWS account:
+ - One admin user for yourself, so you don't access your account with the root user.
+ - One user for the NTI team to evaluate the exam, this user should **only have access to**:
+    - EC2.
+    - S3.
+    - ECR
+    - Read-only access to IAM.
+    - Any additional service you use for your exam that you need us to have access to evaluate the exam.
+ - One support user with READ-only access to EC2 and S3.
+ - One user with permission to write images to ECR only. You will need this later for the image creation process. This user will need to have their access key generated.
+ 
+
+**Additional IAM requirements**:
+
+- All of the users above should have permissions set by the group they belong to (create any group if necessary) and not individually.
+
+- All users should have 2FA enabled. Make sure to securely store the credentials and 2FA token used for every user. This will be evaluated.
+
 
 ### Setting Up the Image Creation Process
 
@@ -54,6 +72,10 @@ If all of the above is correctly set up, you should be able to log in to AWX and
 - Representing your AWS infrastructure in Terraform.
 
 - Setting up the project with Traefik with a domain name and HTTPS so the service is accessible to the public via a domain (This might cost you money, so it is completly optional).
+
+- The dev team is planning on uploading some files and integrating the APP with S3 in the future. Set up some S3 buckets as follows:
+    - One `public-resources` bucket that has public access for everyone with a simple HMTL file on it. The contents of the file can be whatever you want.
+    - One `private-resources` that **cannot be** accessed via any public method. You can host any files you want here.
 
 ### NOTES
 - If there's anything you need that is not provided, please let us know
